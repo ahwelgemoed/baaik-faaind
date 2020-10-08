@@ -1,0 +1,23 @@
+{
+  "name": "@baaik-laait/server-pi",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "postinstall": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch"
+  },
+  "dependencies": {
+    "@abandonware/bleno": "^0.5.1-2",
+    "bleno": "^0.5.0",
+    "xpc-connection": "git://github.com/taoyuan/node-xpc-connection.git"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  },
+  "license": "ISC"
+}

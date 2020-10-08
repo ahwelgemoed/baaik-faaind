@@ -1,0 +1,31 @@
+{
+  "name": "baaik-laait",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**"
+    ]
+  },
+  "scripts": {
+    "watch": "lerna run --parallel watch",
+    "ios": "npx lerna --scope=@baaik-laait/app run ios --stream --",
+    "rn-start": "npx lerna --scope=@baaik-laait/app run start --stream --"
+  },
+  "devDependencies": {
+    "lerna": "^3.16.4"
+  },
+  "author": "A.H.Welgemoed",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bleno": "^0.4.1",
+    "@types/node": "^14.11.5"
+  }
+}
