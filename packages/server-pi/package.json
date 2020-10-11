@@ -9,10 +9,14 @@
   "scripts": {
     "postinstall": "tsc -p tsconfig.json",
     "build": "tsc -p tsconfig.json",
-    "watch": "tsc -p tsconfig.json --watch"
+    "watch": "tsc -p tsconfig.json --watch",
+    "start": "tsc -p tsconfig.json && node -r dotenv/config ./dist/index.js",
+    "pi-start": "node -r dotenv/config ./dist/index.js"
   },
   "dependencies": {
     "@abandonware/bleno": "^0.5.1-2",
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^14.11.8",
     "bleno": "^0.5.0",
     "xpc-connection": "git://github.com/taoyuan/node-xpc-connection.git"
   },

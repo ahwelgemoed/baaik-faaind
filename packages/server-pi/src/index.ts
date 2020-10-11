@@ -1,32 +1,51 @@
-import bleno from "bleno";
+import * as dotenv from "dotenv";
+import bleno from "@abandonware/bleno";
+dotenv.config({ path: __dirname+'/.env' });
 const Characteristic = bleno.Characteristic;
 const LEDCONTROLLER_SERVICE_UUID = "00010000-89BD-43C8-9231-40F6E305F96D";
 const LED_PATTERN_UUID = "00010001-89BD-43C8-9231-40F6E305F96D";
 // const LED_PATTERN_UUIDS = "00010001-89BD-43C8-9231-40F6E305F96F";
 
+const { DEVICE_NAME,INITIAL_SETUP } =process.env
+console.log("🔥", process.env.FOO);
 bleno.on("stateChange", function (state: any) {
   console.log("🔥 " + state);
   if (state === "poweredOn") {
-    bleno.startAdvertising("myRPi", [LEDCONTROLLER_SERVICE_UUID]);
+    bleno.startAdvertising(DEVICE_NAME, [LEDCONTROLLER_SERVICE_UUID]);
   } else {
     bleno.stopAdvertising();
   }
 });
 
 bleno.on("accept", function (clientAddress: any) {
-  console.log("Connection ACCEPTED from address:" + clientAddress);
-  bleno.stopAdvertising();
-  console.log("Stop advertising …");
+  if(INITIAL_SETUP){
+    console.log("Connection ACCEPTED from address:" + clientAddress);
+    bleno.stopAdvertising();
+    return
+  }
+
+  if(!INITIAL_SETUP && DEVICE_NAME == clientAddress){
+    console.log("Connection ACCEPTED from address:" + clientAddress);
+    bleno.stopAdvertising();
+    return
+  }
+
+  if(!INITIAL_SETUP && DEVICE_NAME != clientAddress){
+    bleno.disconnect()
+    return
+  }
 });
 
-// DISCONNECT:
-// Disconnected from a client
 bleno.on("disconnect", function (clientAddress: any) {
   console.log("Disconnected from address:" + clientAddress);
   bleno.startAdvertising("null");
   // isAdvertising = true;
   console.log("Start advertising …");
 });
+
+
+
+
 
 const turnOnCharacteristic = new Characteristic({
   uuid: LED_PATTERN_UUID,
@@ -78,6 +97,10 @@ bleno.on("advertisingStart", (err: any) => {
   });
 });
 
+
+
+
+// scp index_.js index_bleno.js package.json pi@192.168.178.30:testBleno/
 // some diagnostics
 bleno.on("stateChange", (state: any) =>
   console.log(`Bleno: Adapter changed state to ${state}`)
@@ -98,3 +121,6 @@ bleno.on("accept", (clientAddress: any) =>
 bleno.on("disconnect", (clientAddress: any) =>
   console.log(`Bleno: disconnect ${clientAddress}`)
 );
+// scp -r  server-pi pi@192.168.178.30:server-pi/
+// "xpc-connection": "git://github.com/taoyuan/node-xpc-connection.git"
+// 

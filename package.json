@@ -17,7 +17,8 @@
   "scripts": {
     "watch": "lerna run --parallel watch",
     "ios": "npx lerna --scope=@baaik-laait/app run ios --stream --",
-    "rn-start": "npx lerna --scope=@baaik-laait/app run start --stream --"
+    "rn-start": "npx lerna --scope=@baaik-laait/app run start --stream --",
+    "pi": "npx lerna --scope=@baaik-laait/server-pi run watch --stream --"
   },
   "devDependencies": {
     "lerna": "^3.16.4"
